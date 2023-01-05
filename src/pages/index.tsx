@@ -1,12 +1,10 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
-import { trpc } from "../utils/trpc";
 import Chat from "../components/Chat";
 
 const Home: NextPage = () => {
-  const hello = trpc.example.hello.useQuery({ text: "from Cualca" });
   const { data: sessionData } = useSession();
 
   return (

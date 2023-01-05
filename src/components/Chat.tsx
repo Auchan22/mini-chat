@@ -1,23 +1,52 @@
-import React from "react";
+import { useSession } from "next-auth/react";
+import React, { useState } from "react";
+import { trpc } from "../utils/trpc";
 import InputBar from "./InputBar";
-import Message from "./Message";
+import MessageList from "./MessageList";
 
 const Chat = () => {
+  const { data } = useSession();
+
+  const createMessage = trpc.message.createMessage.useMutation();
+
+  const [inputValue, setInputValue] = useState<string>("");
+  const [confirmation, setConfirmation] = useState({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (inputValue.length === 0) {
+      alert("El mensaje debe contener al menos una letra");
+      return;
+    }
+
+    try {
+      const createdMessage = await createMessage.mutateAsync({
+        content: inputValue,
+        senderEmail: data?.user?.email,
+        senderName: data?.user?.name,
+        senderImg: data?.user?.image,
+      });
+      setConfirmation(createMessage);
+      setInputValue("");
+    } catch (error) {
+      setConfirmation(createMessage);
+      console.log(error);
+    }
+  };
+
   return (
     <div className=" relative  min-h-[80vh] w-full justify-end rounded-xl bg-slate-50 px-4 md:w-[40vw]">
-      <div
-        className="message-list my-3 flex max-h-[calc(100vh-35vh)] min-h-[calc(100vh-35vh)] flex-col overflow-auto rounded-2xl bg-[#e5b3fe] pr-2 pb-3 "
-        style={{ boxShadow: "inset 0px -26px 40px -22px rgba(0,0,0,0.18)" }}
-      >
-        <Message />
-        <Message />
-        <Message />
-        <Message selfMessage />
-        <Message />
-        <Message />
-        <Message />
-      </div>
-      <InputBar />
+      <MessageList />
+      <InputBar
+        handleChange={handleChange}
+        inputValue={inputValue}
+        handleSubmit={handleSubmit}
+      />
     </div>
   );
 };

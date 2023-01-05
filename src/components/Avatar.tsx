@@ -10,7 +10,6 @@ interface Props {
 
 const Avatar: React.FC<Props> = ({ alt, img, w, h }) => {
   const { data } = useSession();
-  console.log(data?.user?.image);
   const [hover, setHover] = useState(false);
   return (
     <div className="flex items-center justify-around gap-2">
