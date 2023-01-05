@@ -1,5 +1,4 @@
-import { signOut, useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React from "react";
 
 interface Props {
   img?: string;
@@ -9,8 +8,6 @@ interface Props {
 }
 
 const Avatar: React.FC<Props> = ({ alt, img, w, h }) => {
-  const { data } = useSession();
-  const [hover, setHover] = useState(false);
   return (
     <div className="flex items-center justify-around gap-2">
       <img
