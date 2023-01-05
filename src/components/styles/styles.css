@@ -29,7 +29,7 @@
 }
 
 .message-list::-webkit-scrollbar {
-  width: 12px; /* width of the entire scrollbar */
+  width: 10px; /* width of the entire scrollbar */
 }
 
 .message-list::-webkit-scrollbar-track {
