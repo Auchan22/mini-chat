@@ -4,10 +4,13 @@ import InputBar from "./InputBar";
 import MessageList from "./MessageList";
 import type { Socket } from "socket.io-client";
 import { io } from "socket.io-client";
+import { useSession } from "next-auth/react";
 
 let socket: Socket;
 
 const Chat = () => {
+  const { data: sessionData } = useSession();
+
   useEffect(() => {
     socketInitializer();
   }, []);
@@ -40,7 +43,13 @@ const Chat = () => {
     try {
       setConfirmation(createMessage);
       setInputValue("");
-      socket.emit("mensajeCreado");
+      const createdMessage = await createMessage.mutate({
+        content: inputValue,
+        senderEmail: sessionData?.user?.email,
+        senderName: sessionData?.user?.name,
+        senderImg: sessionData?.user?.image,
+      });
+      socket.emit("mensajeCreado", createdMessage);
     } catch (error) {
       setConfirmation(createMessage);
       console.log(error);
