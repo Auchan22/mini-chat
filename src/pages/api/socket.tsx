@@ -22,7 +22,7 @@ export default function SocketHandler(
   res: NextApiResponseWithSocket
 ) {
   // It means that socket server was already initialised
-  console.log(typeof res.socket);
+  // console.log(typeof res.socket);
   if (res?.socket?.server.io) {
     console.log("Already set up");
     res.end();

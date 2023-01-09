@@ -1,9 +1,9 @@
 import React from "react";
 import Avatar from "./Avatar";
 
-interface IMessage {
+export interface IMessage {
   id: string;
-  senderName?: string;
+  senderName: string;
   senderEmail?: string;
   senderImg?: string;
   content: string;

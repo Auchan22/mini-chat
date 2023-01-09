@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import type { IMessage } from "./Message";
 import Message from "./Message";
 
 import { trpc } from "../utils/trpc";
@@ -10,10 +11,10 @@ let socket;
 
 const MessageList: React.FC = () => {
   const { data, refetch } = trpc.message.getAllMessages.useQuery();
-  const [messages, setMessages] = useState(data);
 
   useEffect(() => {
     socketInitializer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const socketInitializer = async () => {
@@ -36,7 +37,7 @@ const MessageList: React.FC = () => {
       {data?.map((m) => (
         <Message
           key={m.id}
-          data={m}
+          data={m as IMessage}
           selfMessage={sessionData?.user?.email === m.senderEmail}
         />
       ))}
