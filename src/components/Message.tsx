@@ -16,7 +16,7 @@ interface Props {
 const Message: React.FC<Props> = ({ selfMessage, data }) => {
   return (
     <div
-      className={`mt-4 ml-5 flex min-h-[80px] max-w-[95%] items-center justify-start gap-2 rounded-xl ${
+      className={`mt-4 ml-5 flex min-h-max max-w-[95%] items-center justify-start gap-2 rounded-xl ${
         selfMessage ? "bg-[#3a0ca3]" : "bg-[#240046]"
       } p-3`}
     >
@@ -24,10 +24,10 @@ const Message: React.FC<Props> = ({ selfMessage, data }) => {
         <Avatar alt={data.senderName} img={data.senderImg} />
       </div>
 
-      <div className="flex max-h-full max-w-[80%] flex-col">
+      <div className="flex max-w-[80%] flex-col">
         <p className="text-lg font-bold text-white">{data.senderName}</p>
         <p
-          className="break max-w-[100%] text-base text-white"
+          className="break max-w-max break-words text-base text-white"
           style={{ lineBreak: "normal" }}
         >
           {data.content}

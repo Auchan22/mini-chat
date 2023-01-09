@@ -1,10 +1,24 @@
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { trpc } from "../utils/trpc";
 import InputBar from "./InputBar";
 import MessageList from "./MessageList";
+import { io } from "socket.io-client";
+
+let socket;
 
 const Chat = () => {
+  useEffect(() => {
+    socketInitializer();
+  }, []);
+
+  const socketInitializer = async () => {
+    // We just call it because we don't need anything else out of it
+    await fetch("/api/socket");
+
+    socket = io();
+  };
+
   const { data } = useSession();
 
   const createMessage = trpc.message.createMessage.useMutation();
@@ -33,6 +47,7 @@ const Chat = () => {
       });
       setConfirmation(createMessage);
       setInputValue("");
+      socket.emit("mensajeCreado");
     } catch (error) {
       setConfirmation(createMessage);
       console.log(error);

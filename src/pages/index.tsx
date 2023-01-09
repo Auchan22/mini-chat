@@ -1,12 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 
 import Chat from "../components/Chat";
 
 const Home: NextPage = () => {
-  const { data: sessionData } = useSession();
-
   return (
     <>
       <Head>

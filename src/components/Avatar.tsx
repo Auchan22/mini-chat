@@ -8,6 +8,7 @@ interface Props {
 }
 
 const Avatar: React.FC<Props> = ({ alt, img, w, h }) => {
+  // console.log(img);
   return (
     <div className="flex items-center justify-around gap-2">
       <img
